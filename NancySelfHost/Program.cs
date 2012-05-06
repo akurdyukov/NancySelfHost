@@ -7,7 +7,7 @@ namespace NancySelfHost
     {
         public static void Main(string[] args)
         {
-            var nancyHost = new NancyHost(new Uri("http://localhost:8081"));
+            var nancyHost = new NancyHost(new Uri("http://localhost:8090/"));
             nancyHost.Start();
 
             Console.WriteLine("Nancy now listening");

@@ -2,3 +2,4 @@
 /_ReSharper.NancySelfHost
 /NancySelfHost/bin
 /NancySelfHost/obj
+*.suo
