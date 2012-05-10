@@ -3,3 +3,5 @@
 /NancySelfHost/bin
 /NancySelfHost/obj
 *.suo
+*.dotCover
+*.user
