@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Login</title>
-    <link href="@Url.Content("/assets/bootstrap/css/bootstrap.css")" rel="stylesheet"/>
+﻿@{
+    Layout = "MainLayout";
+}
+
+@section Header {
     <style type="text/css">
         /* Override some defaults */
         html, body
@@ -44,34 +44,28 @@
             color: #404040;
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="content">
-            <div class="row">
-                <div class="login-form">
-                    <h2>Login</h2>
-                    <form method="POST">
-                    <fieldset>
-                        @if (Model.Errored)
-                        {
-                            <div class="alert alert-error">Invalid Username or Password</div>
-                        }
-                        <div class="clearfix">
-                            <input type="text" placeholder="Username" name="Username"/>
-                        </div>
-                        <div class="clearfix">
-                            <input type="password" placeholder="Password" name="Password"/>
-                        </div>
-                        <div>
-                            Remember Me <input name="RememberMe" type="checkbox" value="True" />
-                        </div>
-                        <button class="btn btn-primary" type="submit">Sign in</button>
-                    </fieldset>
-                    </form>
-                </div>
+}
+
+<div class="row">
+    <div class="login-form">
+        <h2>Login</h2>
+        <form method="POST">
+        <fieldset>
+            @if (Model.Errored)
+            {
+                <div class="alert alert-error">Invalid Username or Password</div>
+            }
+            <div class="clearfix">
+                <input type="text" placeholder="Username" name="Username"/>
             </div>
-        </div>
+            <div class="clearfix">
+                <input type="password" placeholder="Password" name="Password"/>
+            </div>
+            <div>
+                Remember Me <input name="RememberMe" type="checkbox" value="True" />
+            </div>
+            <button class="btn btn-primary" type="submit">Sign in</button>
+        </fieldset>
+        </form>
     </div>
-</body>
-</html>
+</div>
