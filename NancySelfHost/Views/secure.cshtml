@@ -1,9 +1,13 @@
 ﻿@{
     Layout = "MainLayout";
-}
+}       
 
-Welcome to the secure area @Model.Username ! @Model.Id
-
-<br />
-<br />
-<a href="@Url.Content("~/logout")">Logout</a>
+<div class="row">
+    <div class="span12">
+        <h1>Welcome to the secure area @Model.Username !</h1>
+        <p>Your session id: @Model.Id</p>
+        <p>
+            <a href="@Url.Content("~/logout")">Logout</a>
+        </p>
+    </div>
+</div>

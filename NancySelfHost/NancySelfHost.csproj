@@ -14,6 +14,8 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -35,9 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotLiquid">
-      <HintPath>..\packages\DotLiquid.1.5.4.0\lib\NET40\DotLiquid.dll</HintPath>
-    </Reference>
     <Reference Include="Nancy">
       <HintPath>..\packages\Nancy.0.10.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
@@ -46,9 +45,6 @@
     </Reference>
     <Reference Include="Nancy.Hosting.Self">
       <HintPath>..\packages\Nancy.Hosting.Self.0.10.0\lib\net40\Nancy.Hosting.Self.dll</HintPath>
-    </Reference>
-    <Reference Include="Nancy.ViewEngines.DotLiquid">
-      <HintPath>..\packages\Nancy.Viewengines.DotLiquid.0.10.0\lib\net40\Nancy.ViewEngines.DotLiquid.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.ViewEngines.Razor">
       <HintPath>..\packages\Nancy.Viewengines.Razor.0.10.0\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
@@ -118,9 +114,9 @@
     <Content Include="assets\bootstrap\js\bootstrap.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\index.html">
+    <None Include="Views\index.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -128,6 +124,7 @@
 xcopy /s /y "$(SolutionDir)packages\Nancy.Viewengines.Razor.0.10.0\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin"
 xcopy /s /y "$(SolutionDir)packages\Nancy.Viewengines.Razor.0.10.0\lib\Net40\Nancy.ViewEngines.Razor.dll" "$(ProjectDir)bin"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,12 +1,19 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿@{
+    ViewBag.ShowNavbar = true;
+    ViewBag.PageTitle = "";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Some Application</title>
+    <title>@ViewBag.PageTitle</title>
     <link href="@Url.Content("/assets/bootstrap/css/bootstrap.css")" rel="stylesheet"/>
     @RenderSection("Header", required: false)
 </head>
     <body>
-        <div class="navbar navbar-fixed-top">
+        @if (ViewBag.ShowNavbar)
+        {
+        <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
                     <a class="brand" href="@Url.Content("/")">Project name</a>
@@ -20,6 +27,7 @@
                 </div>
             </div>
         </div>        
+        }
         <div class="container">
             <div class="content">
                 @RenderBody()
