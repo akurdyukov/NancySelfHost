@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.ShowNavbar = true;
+    //ViewBag.HideNavbar = false;
     ViewBag.PageTitle = "";
 }
 
@@ -11,7 +11,7 @@
     @RenderSection("Header", required: false)
 </head>
     <body>
-        @if (ViewBag.ShowNavbar)
+        @if (!ViewBag.HideNavbar)
         {
         <div class="navbar">
             <div class="navbar-inner">

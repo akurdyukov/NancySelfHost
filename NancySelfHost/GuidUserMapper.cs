@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nancy;
 using Nancy.Authentication.Forms;
 using Nancy.Security;
 using NancySelfHost.Auth;
@@ -17,7 +18,7 @@ namespace NancySelfHost
             this.userDatabase = userDatabase;
         }
 
-        public IUserIdentity GetUserFromIdentifier(Guid identifier)
+        public IUserIdentity GetUserFromIdentifier(Guid identifier, NancyContext context)
         {
             if (!cachedUsers.ContainsKey(identifier))
                 return null;

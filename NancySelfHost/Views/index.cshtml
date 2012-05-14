@@ -1,11 +1,104 @@
 ﻿@{
     Layout = "MainLayout";
-    ViewBag.Test = "test value"; // this given compilation error
-    Model.Something = "invalid"; // this crashes whole application
+    //Model.Something = "invalid"; // this crashes whole application
 }       
+
+@section Header
+{
+    <script src="assets/websockets/modernizr-custom-2.0.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.1.min.js"></script> 
+    <script src="assets/websockets/json2.js"></script> 
+
+    <script src="assets/websockets/swfobject.js"></script>
+    <script src="assets/websockets/alchemy-client.js"></script> 
+}
 
 <div class="row">
     <div class="span12">
+        <div id="status">Offline</div>
+        <div id="log"></div>
+    </div>
+    <div class="span12">
+        <button id="connect">Connect</button>
         <a href="secure">Enter the "Secure Zone"!</a>
     </div>
 </div>
+
+<script language="javascript" type="text/javascript">
+    (function (window, $) {
+        // load real websockets or substitute instead
+        Modernizr.load({
+            test: Modernizr.websockets,
+            nope: 'assets/websockets/web_socket.js'
+        });
+
+        // Set URL of your WebSocketMain.swf here, for web-socket-js
+        WEB_SOCKET_SWF_LOCATION = 'assets/websockets/WebSocketMain.swf';
+        WEB_SOCKET_DEBUG = true;
+
+        var alchemyChatServer = {};
+
+        $('#connect').bind('click', function (e) {
+            e.preventDefault();
+            Connect();
+        });
+
+        function Connect() {
+            // If we're using the Flash fallback, we need Flash.
+            if (!window.WebSocket && !swfobject.hasFlashPlayerVersion('10.0.0')) {
+                alert('Flash Player >= 10.0.0 is required.');
+                return;
+            }
+
+            // Set up the Alchemy client object
+            alchemyChatServer = new Alchemy({
+                Server: 'local.fvendor.com',
+                Port: 8091,
+                Action: 'chat',
+                DebugMode: true
+            });
+
+            LogMessage('Connecting...');
+            $('#status').removeClass('offline').addClass('pending').text('Connecting...');
+
+            alchemyChatServer.Connected = function () {
+                LogMessage('Connection established!');
+                $('#status').removeClass('pending').addClass('online').text('Online');
+                AuthUser();
+            };
+
+            alchemyChatServer.Disconnected = function () {
+                LogMessage('Connection closed.');
+                $('#status').removeClass('pending').removeClass('online').addClass('offline').text('Offline');
+            };
+
+            alchemyChatServer.MessageReceived = function (event) {
+                ParseResponse(event.data);
+            };
+
+            alchemyChatServer.Start();
+        };
+
+        function LogMessage(message) {
+            var p = $('<p></p>').text(message);
+            $('#log').prepend(p);
+        }
+
+        function ParseResponse(response) {
+            var data = JSON.parse(response);
+
+            LogMessage("Got data: " + response);
+        }
+
+        function AuthUser() {
+            var message = {
+                Type: "Auth",
+                Msg: {
+                    SessionId: "test1"
+                }
+            };
+            alchemyChatServer.Send(message);
+        }
+    })(window, jQuery);
+    
+</script>

@@ -1,6 +1,6 @@
 ﻿@{
+    ViewBag.HideNavbar = true;
     Layout = "MainLayout";
-    ViewBag.ShowNavbar = false;
 }
 
 @section Header {
@@ -57,7 +57,7 @@
                 <div class="alert alert-error">Invalid Username or Password</div>
             }
             <div class="clearfix">
-                <input type="text" placeholder="Username" name="Username"/>
+                <input type="text" placeholder="Username" name="Username" value="@Model.UserName"/>
             </div>
             <div class="clearfix">
                 <input type="password" placeholder="Password" name="Password"/>
