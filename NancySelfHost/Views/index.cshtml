@@ -87,7 +87,13 @@
         function ParseResponse(response) {
             var data = JSON.parse(response);
 
-            LogMessage("Got data: " + response);
+            if (data.Type == "Log") {
+                WriteLog(data.Msg);
+            }
+        }
+
+        function WriteLog(message) {
+            LogMessage(message.When + ":" + message.MessageText);
         }
 
         function AuthUser() {

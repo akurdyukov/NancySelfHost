@@ -9,6 +9,6 @@ namespace NancySelfHost.WebSockets
     public class WebSocketUser
     {
         public string Name = String.Empty;
-        public UserContext Context { get; set; }
+        public ISession Session { get; set; }
     }
 }

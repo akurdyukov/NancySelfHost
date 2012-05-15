@@ -40,6 +40,9 @@
     <Reference Include="Alchemy">
       <HintPath>..\packages\AlchemyWebsockets.2.2.0.238\lib\net40\Alchemy.dll</HintPath>
     </Reference>
+    <Reference Include="Fleck">
+      <HintPath>..\packages\Fleck.0.9.6.12\lib\net40\Fleck.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.0.11.0\lib\net40\Nancy.dll</HintPath>
@@ -86,11 +89,18 @@
     <Compile Include="SecureModule.cs" />
     <Compile Include="UserIndentity.cs" />
     <Compile Include="UserRoles.cs" />
+    <Compile Include="WebSockets\AbstractWebSocketServer.cs" />
+    <Compile Include="WebSockets\AlchemySession.cs" />
+    <Compile Include="WebSockets\FleckSession.cs" />
+    <Compile Include="WebSockets\FleckWebsocketServer.cs" />
+    <Compile Include="WebSockets\ISession.cs" />
+    <Compile Include="WebSockets\IWebSocketServer.cs" />
+    <Compile Include="WebSockets\IWebSocketListener.cs" />
     <Compile Include="WebSockets\Messages\AuthMessage.cs" />
     <Compile Include="WebSockets\Messages\MessageWrapper.cs" />
     <Compile Include="WebSockets\Messages\LogMessage.cs" />
     <Compile Include="WebSockets\Messages\WebSocketMessageAttribute.cs" />
-    <Compile Include="WebSockets\WebSocketListener.cs" />
+    <Compile Include="WebSockets\AlchemyWebSocketServer.cs" />
     <Compile Include="WebSockets\WebSocketUser.cs" />
   </ItemGroup>
   <ItemGroup>

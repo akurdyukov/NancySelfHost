@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Nancy.Hosting.Self;
 using NancySelfHost.Auth;
 using NancySelfHost.WebSockets;
+using NancySelfHost.WebSockets.Messages;
 
 namespace NancySelfHost
 {
@@ -51,9 +52,13 @@ namespace NancySelfHost
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             CancellationToken ct = tokenSource.Token;
 
+            var nancyHost = new NancyHost(GetBindableUris());
+            IWebSocketServer wsServer = new FleckWebSocketServer(8091, "local.fvendor.com",
+                                                                   new TimeSpan(0, 5, 0), new UserDatabase());
+            wsServer.Register<AuthMessage>();
+
             Task nancyTask = new Task(() =>
                                           {
-                                              var nancyHost = new NancyHost(GetBindableUris());
                                               nancyHost.Start();
 
                                               Console.WriteLine("Nancy now listening");
@@ -67,9 +72,7 @@ namespace NancySelfHost
 
             Task websocketTask = new Task(() =>
                                               {
-                                                  var aServer = new WebSocketListener(8091, IPAddress.Any,
-                                                                                      new TimeSpan(0, 5, 0), new UserDatabase());
-                                                  aServer.Start();
+                                                  wsServer.Start();
 
                                                   Console.WriteLine("Websockets listener started");
 
@@ -77,11 +80,26 @@ namespace NancySelfHost
                                                   {
                                                       Thread.Sleep(1000);
                                                   }
-                                                  aServer.Stop();  // stop hosting
+                                                  wsServer.Stop();  // stop hosting
                                               }, tokenSource.Token);
+
+            Task logPusher = new Task(() =>
+            {
+                while (!ct.IsCancellationRequested)
+                {
+                    LogMessage message = new LogMessage
+                    {
+                        MessageText = "Another message",
+                        When = DateTime.Now
+                    };
+                    wsServer.Broadcast(message);
+                    Thread.Sleep(100);
+                }
+            }, tokenSource.Token);
 
             nancyTask.Start();
             websocketTask.Start();
+            logPusher.Start();
 
             var line = Console.ReadLine();
             while (line != "quit")
